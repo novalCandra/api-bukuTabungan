@@ -6,6 +6,10 @@
 # TypeScript build cache
 *.tsbuildinfo
 
+.agents
+.claude
+.windsurf
+
 # Logs
 logs
 *.log
@@ -57,3 +61,8 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+/generated/prisma
+
+# folder
+migrations
