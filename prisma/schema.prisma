@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model users {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  name     String?
+  password String
+  role     Role    @default(user)
+}
+
+model tabungan {
+  id      Int      @id @default(autoincrement())
+  tanggal DateTime
+  masuk   Int
+  keluar  Int
+  type    Type     @default(Deposit)
+}
+
+enum Role {
+  penjual
+  user
+}
+
+enum Type {
+  Deposit
+  Loss
+  Withdrawal
+}
