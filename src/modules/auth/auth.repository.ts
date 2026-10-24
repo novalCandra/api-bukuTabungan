@@ -42,6 +42,7 @@ export class AuthRepository {
                 email : createregister.email,
                 name : createregister.email,
                 password : passwordHash,
+                phone: createregister.phone,
                 role : "user"
             }
         })
