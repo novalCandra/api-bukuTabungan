@@ -8,6 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/users.js'
-export type * from './models/tabungan.js'
+export type * from './models/User.js'
+export type * from './models/Savings.js'
+export type * from './models/Deskripsi.js'
 export type * from './commonInputTypes.js'

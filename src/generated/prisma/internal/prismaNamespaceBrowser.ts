@@ -51,8 +51,9 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  users: 'users',
-  tabungan: 'tabungan'
+  User: 'User',
+  Savings: 'Savings',
+  Deskripsi: 'Deskripsi'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -71,7 +72,7 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const UsersScalarFieldEnum = {
+export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   name: 'name',
@@ -80,18 +81,27 @@ export const UsersScalarFieldEnum = {
   role: 'role'
 } as const
 
-export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-export const TabunganScalarFieldEnum = {
+export const SavingsScalarFieldEnum = {
   id: 'id',
-  tanggal: 'tanggal',
-  masuk: 'masuk',
-  keluar: 'keluar',
-  type: 'type'
+  userId: 'userId',
+  Date: 'Date',
+  widrawalAmount: 'widrawalAmount',
+  balance: 'balance'
 } as const
 
-export type TabunganScalarFieldEnum = (typeof TabunganScalarFieldEnum)[keyof typeof TabunganScalarFieldEnum]
+export type SavingsScalarFieldEnum = (typeof SavingsScalarFieldEnum)[keyof typeof SavingsScalarFieldEnum]
+
+
+export const DeskripsiScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  notes: 'notes'
+} as const
+
+export type DeskripsiScalarFieldEnum = (typeof DeskripsiScalarFieldEnum)[keyof typeof DeskripsiScalarFieldEnum]
 
 
 export const SortOrder = {
