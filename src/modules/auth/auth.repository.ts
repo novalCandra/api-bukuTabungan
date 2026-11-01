@@ -19,8 +19,6 @@ export class AuthRepository {
             }
         })
 
-        console.log(user?.name ?? "password kosong")
-
         const validtion = await this.passwordHash.verify(createLogin.password, user?.password)!;
         if (!user || !validtion) {
             throw new UnauthorizedException('email is password wromg')
