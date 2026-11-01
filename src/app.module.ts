@@ -1,4 +1,4 @@
-import {Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { createObserveModule } from '@nestjs/observe';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { DatabaseModule } from './infrastructure/database/database.module.js';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './modules/auth/guarded/roles.guard.js';
+import { DashboardModule } from './modules/dashboard/dashboard.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -15,15 +16,16 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     JwtModule.registerAsync({
-      global : true,
-      inject : [ConfigService],
-      useFactory : (config : ConfigService) => ({
-        secret : config.getOrThrow<string>("SUPABASE_JWT_SECRET"),
-        signOptions : {expiresIn : "1h"}
+      global: true,
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        secret: config.getOrThrow<string>("SUPABASE_JWT_SECRET"),
+        signOptions: { expiresIn: "1h" }
       })
     }),
     DatabaseModule,
-    AuthModule
+    AuthModule,
+    DashboardModule
   ],
 
   controllers: [AppController],
