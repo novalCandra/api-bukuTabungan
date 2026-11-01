@@ -13,13 +13,15 @@ export class AuthRepository {
     ) { }
 
     async cretaeLogin(createLogin: LoginDto) {
-        const user = await this.databaseService.users.findFirst({
+        const user = await this.databaseService.user.findFirst({
             where: {
-                email: createLogin.email
+                email: createLogin?.email
             }
         })
 
-        const validtion =  this.passwordHash.verify(createLogin.password, user?.password)!;
+        console.log(user?.name ?? "password kosong")
+
+        const validtion = await this.passwordHash.verify(createLogin.password, user?.password)!;
         if (!user || !validtion) {
             throw new UnauthorizedException('email is password wromg')
         }
@@ -27,9 +29,9 @@ export class AuthRepository {
         const acctessToken = await this.jwtService.signAsync({ sub: String(user.id) })
 
         return {
-            data : {
-                name :user.name,
-                email : user.email
+            data: {
+                name: user?.name,
+                email: user?.email
             },
             acctessToken
         }
@@ -37,13 +39,13 @@ export class AuthRepository {
 
     async createRegister(createregister: RegisterDTO) {
         const passwordHash = await this.passwordHash.hash(createregister.password)
-        return await this.databaseService.users.create({
+        return await this.databaseService.user.create({
             data: {
-                email : createregister.email,
-                name : createregister.email,
-                password : passwordHash,
+                email: createregister.email,
+                name: createregister.name,
+                password: passwordHash,
                 phone: createregister.phone,
-                role : "user"
+                role: "user"
             }
         })
     }
