@@ -7,7 +7,7 @@ import { LoginDto } from "./dto/login-dto.js";
 export class AuthController {
     constructor(private readonly authservice: AuthService) { }
     @Post('/login')
-    async PostLoginController(@Param() createLogin: LoginDto) {
+    async PostLoginController(@Body() createLogin: LoginDto) {
         return await this.authservice.PostLoginServive(createLogin)
     }
 

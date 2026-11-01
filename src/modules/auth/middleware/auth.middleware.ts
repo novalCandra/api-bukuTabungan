@@ -13,8 +13,9 @@ export class AuthMiddleware implements NestMiddleware {
             const payload = await this.jwt.verifyAsync(token, {
                 secret : process.env.SUPABASE_JWT_SECRET
             })
-            const profile = await this.databaseSerice.users.findUnique({
-                where : {id : payload.id}
+            const profile = await this.databaseSerice.user.findUnique({
+                where: { id: Number(payload.sub) },
+                select: { id: true, email: true, role: true },
             })
             if(!profile) throw new UnauthorizedException();
 
@@ -23,6 +24,5 @@ export class AuthMiddleware implements NestMiddleware {
         } catch (error) {
             throw new UnauthorizedException(error)
         }
-        next()
     }
 }
