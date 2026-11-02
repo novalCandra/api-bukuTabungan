@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { DatabaseService } from "../../infrastructure/database/database.service.js";
+import { CreateNotedDto } from "./dto/create.noted.dto.js";
 
 @Injectable()
 export class NotedRepository {
@@ -17,13 +18,14 @@ export class NotedRepository {
         return await this.databaseservice.deskripsi.findMany({})
     }
 
-    async PostNotedPenjual(userId: number, notes: string) {
-        return await this.databaseservice.deskripsi.create({
+    async PostNotedPenjual(createDto: CreateNotedDto) {
+        const data = await this.databaseservice.deskripsi.create({
             data: {
-                userId: userId,
-                notes: notes
+                userId: createDto.userId,
+                notes: createDto.notes
             }
         })
+        return data;
     }
 
     async updateNotedPenjual(id: number, userId: number, notes: string) {

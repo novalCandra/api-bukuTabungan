@@ -1,5 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { NotedRepository } from "./noted.repository.js";
+import { CreateNotedDto } from "./dto/create.noted.dto.js";
+import { UpdateDtoNotes } from "./dto/update.noted.dto.js";
 
 @Injectable()
 export class NotedService {
@@ -13,12 +15,12 @@ export class NotedService {
         return await this.notedRepository.getAllNotesPenjual()
     }
 
-    async PostNotedPenjualService(userId: number, notes: string) {
-        return await this.notedRepository.PostNotedPenjual(userId, notes)
+    async PostNotedPenjualService(createDto: CreateNotedDto) {
+        return await this.notedRepository.PostNotedPenjual({ userId: createDto.userId, notes: createDto.notes })
     }
 
-    async updatePenjualService(id: number, userId: number, notes: string) {
-        return await this.notedRepository.updateNotedPenjual(id, userId, notes)
+    async updatePenjualService(id: number, updateDto: UpdateDtoNotes) {
+        return await this.notedRepository.updateNotedPenjual(id, updateDto.userId, updateDto.notes)
     }
 
     async deletePenjualService(id: number) {

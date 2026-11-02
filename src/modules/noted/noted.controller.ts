@@ -3,6 +3,8 @@ import { NotedService } from "./noted.service.js";
 import { Roles } from "../auth/guarded/roles.decorator.js";
 import { Role } from "../../generated/prisma/enums.js";
 import { RolesGuard } from "../auth/guarded/roles.guard.js";
+import { UpdateDtoNotes } from "./dto/update.noted.dto.js";
+import { CreateNotedDto } from "./dto/create.noted.dto.js";
 
 @Controller('noted')
 @UseGuards(RolesGuard)
@@ -24,13 +26,19 @@ export class NotedController {
     @Post('/penjual')
     @Roles(Role.penjual)
     async PostNotedPenjualController(@Body() body: { userId: number, notes: string }) {
-        return await this.notedservice.PostNotedPenjualService(body.userId, body.notes)
+        return await this.notedservice.PostNotedPenjualService({
+            userId: body.userId,
+            notes: body.notes
+        })
     }
 
     @Put('/penjual/:id')
     @Roles(Role.penjual)
     async UpdateNotedPenjualController(@Param('id', ParseIntPipe) id: number, @Body() body: { userId: number, notes: string }) {
-        return await this.notedservice.updatePenjualService(id, body.userId, body.notes)
+        return await this.notedservice.updatePenjualService(id, {
+            userId: body.userId,
+            notes: body.notes
+        })
     }
 
     @Delete('/penjual/:id')
