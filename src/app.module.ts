@@ -9,6 +9,8 @@ import { DatabaseModule } from './infrastructure/database/database.module.js';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './modules/auth/guarded/roles.guard.js';
 import { DashboardModule } from './modules/dashboard/dashboard.module.js';
+import { NotedModule } from './modules/noted/noted.module.js';
+import { SavingModule } from './modules/saving/saving.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -25,7 +27,9 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     }),
     DatabaseModule,
     AuthModule,
-    DashboardModule
+    DashboardModule,
+    NotedModule,
+    SavingModule
   ],
 
   controllers: [AppController],
