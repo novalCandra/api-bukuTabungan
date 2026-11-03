@@ -19,7 +19,7 @@ export class AuthRepository {
             }
         })
 
-        const validtion = await this.passwordHash.verify(createLogin.password, user?.password)!;
+        const validtion = this.passwordHash.verify(createLogin.password, user?.password)!;
         if (!user || !validtion) {
             throw new UnauthorizedException('email is password wromg')
         }
