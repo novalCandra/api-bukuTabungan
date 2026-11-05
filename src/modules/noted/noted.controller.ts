@@ -25,18 +25,18 @@ export class NotedController {
 
     @Post('/penjual')
     @Roles(Role.penjual)
-    async PostNotedPenjualController(@Body() body: { userId: number, notes: string }) {
+    async PostNotedPenjualController(@Body() body: CreateNotedDto) {
         return await this.notedservice.PostNotedPenjualService({
-            userId: body.userId,
+            user: body.user,
             notes: body.notes
         })
     }
 
     @Put('/penjual/:id')
     @Roles(Role.penjual)
-    async UpdateNotedPenjualController(@Param('id', ParseIntPipe) id: number, @Body() body: { userId: number, notes: string }) {
+    async UpdateNotedPenjualController(@Param('id', ParseIntPipe) id: number, @Body() body: CreateNotedDto) {
         return await this.notedservice.updatePenjualService(id, {
-            userId: body.userId,
+            user: body.user,
             notes: body.notes
         })
     }

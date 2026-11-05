@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { DatabaseService } from "../../infrastructure/database/database.service.js";
 import { CreateNotedDto } from "./dto/create.noted.dto.js";
+import { UpdateDtoNotes } from "./dto/update.noted.dto.js";
 
 @Injectable()
 export class NotedRepository {
@@ -9,7 +10,17 @@ export class NotedRepository {
     async getAllNotesCustomers(userId: number) {
         return await this.databaseservice.deskripsi.findMany({
             where: {
-                userId: userId
+                user: {
+                    id: userId,
+                }
+            },
+            include: {
+                user: {
+                    select: {
+                        name: true,
+                        email: true
+                    }
+                }
             }
         })
     }
@@ -21,23 +32,53 @@ export class NotedRepository {
     async PostNotedPenjual(createDto: CreateNotedDto) {
         const data = await this.databaseservice.deskripsi.create({
             data: {
-                userId: createDto.userId,
+                userId: createDto.user.id,
                 notes: createDto.notes
+            },
+            include: {
+                user: {
+                    select: {
+                        name: true,
+                        email: true
+                    }
+                }
             }
         })
-        return data;
+        return {
+            message: "sucess create data",
+            data: {
+                user: data.user,
+                notes: data.notes
+            }
+        };
     }
 
-    async updateNotedPenjual(id: number, userId: number, notes: string) {
-        return await this.databaseservice.deskripsi.update({
+    async updateNotedPenjual(id: number, updateDto: CreateNotedDto) {
+        const data = await this.databaseservice.deskripsi.update({
             where: {
                 id: id
             },
             data: {
-                userId: userId,
-                notes: notes
+                userId: updateDto.user.id,
+                notes: updateDto.notes
+            },
+            include: {
+                user: {
+                    select: {
+                        name: true,
+                        email: true
+                    }
+                }
             }
         })
+
+        return {
+            message: "success update date",
+            data: {
+                user: data.user.name,
+                notes: data.notes
+            }
+        }
     }
 
     async deleteNotedPenjual(id: number) {

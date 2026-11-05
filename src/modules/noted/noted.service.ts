@@ -16,11 +16,11 @@ export class NotedService {
     }
 
     async PostNotedPenjualService(createDto: CreateNotedDto) {
-        return await this.notedRepository.PostNotedPenjual({ userId: createDto.userId, notes: createDto.notes })
+        return await this.notedRepository.PostNotedPenjual({ user: createDto.user, notes: createDto.notes })
     }
 
-    async updatePenjualService(id: number, updateDto: UpdateDtoNotes) {
-        return await this.notedRepository.updateNotedPenjual(id, updateDto.userId, updateDto.notes)
+    async updatePenjualService(id: number, updateDto: CreateNotedDto) {
+        return await this.notedRepository.updateNotedPenjual(id, { user: updateDto.user, notes: updateDto.notes })
     }
 
     async deletePenjualService(id: number) {
