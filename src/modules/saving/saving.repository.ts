@@ -1,42 +1,74 @@
 import { Injectable } from "@nestjs/common";
 import { DatabaseService } from "../../infrastructure/database/database.service.js";
 import { SavingGetDTO } from "./dto/saving.dto.js";
-import { STATUS_CODES } from "http";
+import { CreateOrPutSaving } from "./dto/create.saving.dto.js";
 
 @Injectable()
 export class SavingRepository {
     constructor(private readonly databaseService: DatabaseService) { }
 
-    async getallsavingCustomerRepository(userId: number) {
-        return await this.databaseService.savings.findMany({
+    async getallsavingCustomerRepository(getDataSaving: SavingGetDTO) {
+        const data = await this.databaseService.savings.findMany({
             where: {
-                userId: userId
+                userId: getDataSaving.userId
+            },
+            include: {
+                user: {
+                    select: {
+                        name: true,
+                        email: true
+                    }
+                }
             }
         })
+        return {
+            status: 200,
+            message: `Get All data Saving customer`,
+            data: {
+                ...data
+            }
+        }
     }
 
     async getAllSavingRepositoryPenjual() {
-        return await this.databaseService.savings.findMany({})
-    }
-
-    async postSavingRepositoryPenjual(createSaving: SavingGetDTO) {
-        return await this.databaseService.savings.create({
-            data: {
-                userId: createSaving.userId,
-                balance: createSaving.balance,
-                widrawalAmount: createSaving.widrawalAmount,
-                Date: createSaving.Date
+        return await this.databaseService.savings.findMany({
+            include: {
+                user: {
+                    select: {
+                        name: true,
+                        email: true
+                    }
+                }
             }
         })
     }
 
-    async PutSavingRepositoryPenjual(id: number, createSaving: SavingGetDTO) {
+    async postSavingRepositoryPenjual(createSaving: CreateOrPutSaving) {
+        return await this.databaseService.savings.create({
+            data: {
+                userId: createSaving.user.id,
+                balance: createSaving.balance,
+                widrawalAmount: createSaving.widrawalAmount,
+                Date: createSaving.Date
+            },
+            include: {
+                user: {
+                    select: {
+                        name: true,
+                        email: true
+                    }
+                }
+            }
+        })
+    }
+
+    async PutSavingRepositoryPenjual(id: number, createSaving: CreateOrPutSaving) {
         const data = await this.databaseService.savings.update({
             where: {
                 id
             },
             data: {
-                userId: createSaving.userId,
+                userId: createSaving.user.id,
                 balance: createSaving.balance,
                 widrawalAmount: createSaving.widrawalAmount,
                 Date: createSaving.Date

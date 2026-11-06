@@ -1,8 +1,7 @@
-import { IsDate, IsNumber } from "class-validator";
-
+import { IsDate, IsNumber, IsString, ValidateNested } from "class-validator";
 export class SavingGetDTO {
     @IsNumber()
-    userId : number;
+    userId: number;
     @IsDate()
     Date: Date;
     @IsNumber()

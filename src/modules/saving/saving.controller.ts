@@ -4,6 +4,7 @@ import { Roles } from "../auth/guarded/roles.decorator.js";
 import { Role } from "../../generated/prisma/enums.js";
 import { RolesGuard } from "../auth/guarded/roles.guard.js";
 import { SavingGetDTO } from "./dto/saving.dto.js";
+import { CreateOrPutSaving } from "./dto/create.saving.dto.js";
 
 @Controller('saving')
 @UseGuards(RolesGuard)
@@ -24,9 +25,9 @@ export class SavingController {
 
     @Post('/penjual')
     @Roles(Role.penjual)
-    async PostSavingPenjualController(@Body() body: { userId: number, balance: number, Date: Date, widrawalAmount: number }) {
+    async PostSavingPenjualController(@Body() body: CreateOrPutSaving) {
         return await this.savingservice.postSavingpenjual({
-            userId: body.userId,
+            user: body.user,
             balance: body.balance,
             Date: body.Date,
             widrawalAmount: body.widrawalAmount
@@ -35,9 +36,9 @@ export class SavingController {
 
     @Put('/penjual/:id')
     @Roles(Role.penjual)
-    async PutSavingPenjualController(@Param('id', ParseIntPipe) id: number, @Body() body: { userId: number, balance: number, Date: Date, widrawalAmount: number }) {
+    async PutSavingPenjualController(@Param('id', ParseIntPipe) id: number, @Body() body: CreateOrPutSaving) {
         return await this.savingservice.putSavingpenjualService(id, {
-            userId: body.userId,
+            user: body.user,
             balance: body.balance,
             Date: body.Date,
             widrawalAmount: body.widrawalAmount
